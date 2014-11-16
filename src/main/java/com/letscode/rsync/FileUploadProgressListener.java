@@ -11,16 +11,16 @@ public class FileUploadProgressListener
             throws IOException {
         switch (uploader.getUploadState()) {
             case INITIATION_STARTED:
-                System.out.println(">>>>Upload Initiation has started!");
+                System.out.println("[START] Upload Initiation has started!");
                 break;
             case INITIATION_COMPLETE:
-                System.out.println(">>>>Upload Processing...");
+                System.out.println("[PROCESS] Upload Processing...");
                 break;
             case MEDIA_IN_PROGRESS:
                 bar.printProcessBar((int)(uploader.getProgress()*100));
                 break;
             case MEDIA_COMPLETE:
-                System.out.print("\n>>>>Upload is Complete!");
+                System.out.print("\n[FINISH] Upload is Complete!");
         }
     }
 }
