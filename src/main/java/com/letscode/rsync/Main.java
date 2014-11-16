@@ -30,6 +30,7 @@ public class Main {
     private static final String CLIENT_ID = "171149913705-v4kmn2rlu9lv2j5m8gqveje9ulma7cen.apps.googleusercontent.com";
     private static final String CLIENT_SECRET = "DC68-Lsrk4LuAy1RRZepGGe6";
     private static final String REDIRECT_URI = "urn:ietf:wg:oauth:2.0:oob";
+    private static final String APPLICATION_NAME = "Rsync";
     private static Drive drive;
     private static String filePath = "";
 
@@ -63,7 +64,7 @@ public class Main {
         GoogleTokenResponse response = flow.newTokenRequest(code).setRedirectUri(REDIRECT_URI).execute();
         GoogleCredential credential = new GoogleCredential().setFromTokenResponse(response);
 
-        drive = new Drive.Builder(httpTransport, jsonFactory, credential).build();
+        drive = new Drive.Builder(httpTransport, jsonFactory, credential).setApplicationName(APPLICATION_NAME).build();
 
         com.google.api.services.drive.model.File file = uploadFile(false);
         System.out.println("Successfull ! File ID: " + file.getId());
