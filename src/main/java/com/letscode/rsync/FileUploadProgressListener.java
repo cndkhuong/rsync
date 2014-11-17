@@ -20,7 +20,7 @@ public class FileUploadProgressListener
                 bar.printProcessBar((int)(uploader.getProgress()*100));
                 break;
             case MEDIA_COMPLETE:
-                System.out.print("\n[FINISH] Upload is Complete!");
+                System.out.print("100%\n[FINISH] Upload is Complete!");
         }
     }
 }

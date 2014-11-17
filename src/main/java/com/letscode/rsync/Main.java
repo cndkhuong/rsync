@@ -66,13 +66,23 @@ public class Main {
 
         drive = new Drive.Builder(httpTransport, jsonFactory, credential).setApplicationName(APPLICATION_NAME).build();
 
-        com.google.api.services.drive.model.File file = uploadFile(false);
-        System.out.println("Successfull ! File ID: " + file.getId());
+        uploadFolder(false, filePath);
     }
 
-    private static com.google.api.services.drive.model.File uploadFile(boolean useDirectUpload)
+    private static void uploadFolder(boolean useDirectUpload, String filePath) throws IOException{
+        java.io.File file = new java.io.File(filePath);
+        if(file.isDirectory()){
+            for(java.io.File childFile : file.listFiles()){
+                uploadFolder(useDirectUpload, childFile.getPath());
+            }
+        }else{
+            uploadFile(useDirectUpload, file);
+        }
+    }
+    
+    private static com.google.api.services.drive.model.File uploadFile(boolean useDirectUpload, java.io.File fileContent)
             throws IOException {
-        java.io.File fileContent = new java.io.File(filePath);
+        System.out.println("-------------" + fileContent.getName()+"-------------");
         com.google.api.services.drive.model.File fileMetadata = new com.google.api.services.drive.model.File();
         fileMetadata.setTitle(fileContent.getName());
         Date lastModify = new Date(fileContent.lastModified());
@@ -85,6 +95,10 @@ public class Main {
         MediaHttpUploader uploader = insert.getMediaHttpUploader();
         uploader.setDirectUploadEnabled(useDirectUpload);
         uploader.setProgressListener(new FileUploadProgressListener());
-        return (com.google.api.services.drive.model.File) insert.execute();
+        com.google.api.services.drive.model.File file = (com.google.api.services.drive.model.File) insert.execute();
+        System.out.println("Successfull ! File ID: " + file.getId()); 
+        return file;
     }
+    
+    
 }
