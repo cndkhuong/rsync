@@ -30,7 +30,7 @@ public class ProcessBar {
     }
 
     public void printProcessBar(int percent) {
-        int processWidth = percent * width / 50;
+        int processWidth = percent * width / 100;
         System.out.print("\r" + barStart);
         for (int i = 0; i < processWidth; i++) {
             System.out.print(arrowBody);
