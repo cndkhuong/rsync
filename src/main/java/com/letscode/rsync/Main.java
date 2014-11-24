@@ -15,6 +15,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.ResourceBundle;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -26,11 +27,18 @@ import java.util.Date;
  * @author kevin
  */
 public class Main {
-
-    private static final String CLIENT_ID = "171149913705-v4kmn2rlu9lv2j5m8gqveje9ulma7cen.apps.googleusercontent.com";
-    private static final String CLIENT_SECRET = "DC68-Lsrk4LuAy1RRZepGGe6";
-    private static final String REDIRECT_URI = "urn:ietf:wg:oauth:2.0:oob";
-    private static final String APPLICATION_NAME = "Rsync";
+    
+      
+    private static String CLIENT_ID ,CLIENT_SECRET ,REDIRECT_URI ,APPLICATION_NAME;
+    
+    static {
+        ResourceBundle rb=ResourceBundle.getBundle("app"); 
+        CLIENT_ID = rb.getString("CLIENT_ID");
+        CLIENT_SECRET = rb.getString("CLIENT_SECRET");
+        REDIRECT_URI = rb.getString("REDIRECT_URI");
+        APPLICATION_NAME = rb.getString("APPLICATION_NAME");
+    }
+    
     private static Drive drive;
     private static String filePath = "";
 
@@ -88,6 +96,7 @@ public class Main {
         Date lastModify = new Date(fileContent.lastModified());
         fileMetadata.setDescription(lastModify.toString());
         fileMetadata.setMimeType("text/plain");
+        fileMetadata.set("uploadType", "resumable");
 
         FileContent mediaContent = new FileContent("text/plain", fileContent);
 
